@@ -31,6 +31,13 @@ export type Revenue = {
   revenue: number;
 };
 
+export type Spots = {
+  id: number; // same as parking_id
+  coordinates: [number, number][]; // array of [longitude, latitude] pairs
+  availability: number; // 0 or 1
+};
+
+
 export type LatestInvoice = {
   id: string;
   name: string;
