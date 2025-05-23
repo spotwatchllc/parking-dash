@@ -13,6 +13,9 @@ import {
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXJ1bG1rMTciLCJhIjoiY2x5eWphY2VsMmEwejJqcHlyMTBpNTA5YSJ9.awhbH-MC409jQiIcp9K1Ig';
 
 import TypingHero from './Typing';
+import { buttonVariants } from "@/components/ui/button"
+
+import Link from 'next/link'
 
 type ParkingSpot = {
   parking_id: number;
@@ -98,27 +101,22 @@ export default function Map() {
 
       {/* Navigation Menu (Top-left corner) */}
       <div className="absolute top-4 left-4 z-20">
-        <NavigationMenu>
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger> Menu </NavigationMenuTrigger>
-              <NavigationMenuContent className="p-4 bg-white rounded shadow max-h-[400px] overflow-y-auto">
-                {spots.map((spot) => (
-                  <div
-                    key={spot.parking_id}
-                    className={`p-2 rounded mb-2 text-sm ${
-                      spot.availability === 1 ? 'bg-red-100' : 'bg-green-100'
-                    }`}
-                  >
-                    <p className="font-semibold">Spot #{spot.parking_id}</p>
-                    <p>Status: {spot.availability === 1 ? 'Unavailable' : 'Available'}</p>
-                  </div>
-                ))}
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
-      </div>
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>Menu</NavigationMenuTrigger>
+            <NavigationMenuContent className="p-4 bg-white rounded shadow max-h-[400px] overflow-y-auto">
+              <Link
+                href="/configuration"
+                className={buttonVariants({ variant: 'outline' })}
+              >
+                Configuration
+              </Link>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+    </div>
 
       {/* Map Overlay Text (centered at top) */}
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
