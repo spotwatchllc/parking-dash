@@ -12,6 +12,8 @@ import {
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXJ1bG1rMTciLCJhIjoiY2x5eWphY2VsMmEwejJqcHlyMTBpNTA5YSJ9.awhbH-MC409jQiIcp9K1Ig';
 
+import TypingHero from './Typing';
+
 type ParkingSpot = {
   parking_id: number;
   coordinates: [number, number][];
@@ -119,8 +121,8 @@ export default function Map() {
       </div>
 
       {/* Map Overlay Text (centered at top) */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 px-6 py-4 rounded-xl bg-white bg-opacity-70 text-black text-5xl font-bold tracking-wide shadow-md">
-        Welcome To SpotWatch
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
+        <TypingHero />
       </div>
       <img
         src="/SPOTWATCH_logo.png"
