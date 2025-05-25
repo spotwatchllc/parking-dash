@@ -3,6 +3,9 @@
 import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import { Button } from '@/components/ui/button';
+import mapboxgl, { GeolocateControl } from 'mapbox-gl';
+import { cn } from '@/lib/utils'; // combines class names
+import { buttonVariants } from '@/components/ui/button';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXJ1bG1rMTciLCJhIjoiY2x5eWphY2VsMmEwejJqcHlyMTBpNTA5YSJ9.awhbH-MC409jQiIcp9K1Ig';
 
@@ -13,6 +16,8 @@ export default function ImageMapLinker() {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const markersRef = useRef<mapboxgl.Marker[]>([]);
+
+  const geolocateControlRef = useRef<GeolocateControl | null>(null);
 
   useEffect(() => {
     if (!mapContainerRef.current) return;
@@ -36,6 +41,19 @@ export default function ImageMapLinker() {
     // Remove existing markers
     markersRef.current.forEach(marker => marker.remove());
     markersRef.current = [];
+
+    const geolocateControl = new GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      trackUserLocation: true,
+      showUserHeading: true,
+      fitBoundsOptions: { maxZoom: 15 },
+    });
+
+    mapRef.current.addControl(geolocateControl, 'bottom-left');
+    geolocateControlRef.current = geolocateControl;
+
 
     // Add updated markers with labels
     linkedPoints.forEach((point, idx) => {
@@ -134,9 +152,30 @@ export default function ImageMapLinker() {
         )}
       </div>
 
+      <div className="absolute bottom-4 right-4 z-20">
+        <button
+          onClick={() => geolocateControlRef.current?.trigger()}
+          className={cn(
+            buttonVariants({ variant: 'default' }),
+            'bg-white text-black hover:bg-gray-100 border border-gray-300'
+          )}
+        >
+          Go to My Location
+        </button>
+      </div>
+
+
       {/* Map display area */}
-      <div className="w-1/2 h-full relative">
-        <div className="absolute inset-0" ref={mapContainerRef}></div>
+      <div className="w-1/2 h-screen">
+        <div
+            id="map"
+            ref={mapContainerRef}
+            style={{
+            width: "100%",
+            height: "100%",
+            border: "1px solid black",
+            }}
+         />
       </div>
     </div>
   );
