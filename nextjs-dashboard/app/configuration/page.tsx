@@ -3,9 +3,10 @@
 import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import { Button } from '@/components/ui/button';
-import mapboxgl, { GeolocateControl } from 'mapbox-gl';
+import mapboxgl, { GeolocateControl, Marker } from 'mapbox-gl';
 import { cn } from '@/lib/utils'; // combines class names
 import { buttonVariants } from '@/components/ui/button';
+import "mapbox-gl/dist/mapbox-gl.css";
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXJ1bG1rMTciLCJhIjoiY2x5eWphY2VsMmEwejJqcHlyMTBpNTA5YSJ9.awhbH-MC409jQiIcp9K1Ig';
 
@@ -32,16 +33,6 @@ export default function ImageMapLinker() {
 
     mapRef.current = map;
 
-    return () => map.remove();
-  }, []);
-
-  useEffect(() => {
-    if (!mapRef.current) return;
-
-    // Remove existing markers
-    markersRef.current.forEach(marker => marker.remove());
-    markersRef.current = [];
-
     const geolocateControl = new GeolocateControl({
       positionOptions: {
         enableHighAccuracy: true,
@@ -54,6 +45,15 @@ export default function ImageMapLinker() {
     mapRef.current.addControl(geolocateControl, 'bottom-left');
     geolocateControlRef.current = geolocateControl;
 
+    return () => map.remove();
+  }, []);
+
+  useEffect(() => {
+    if (!mapRef.current) return;
+
+    // Remove existing markers
+    markersRef.current.forEach(marker => marker.remove());
+    markersRef.current = [];
 
     // Add updated markers with labels
     linkedPoints.forEach((point, idx) => {
@@ -98,10 +98,19 @@ export default function ImageMapLinker() {
   };
 
   const handleMapClick = (e: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
+    const { lng, lat } = e.lngLat;
+
+    // Always add a marker, regardless of image click
+    const marker = new Marker({ color: 'blue' })
+      .setLngLat([lng, lat])
+      .addTo(mapRef.current!);
+    markersRef.current.push(marker);
+
+    // Only add to linkedPoints if an image point was clicked
     if (clickedImageCoords) {
       const newLink = {
         image: clickedImageCoords,
-        map: [e.lngLat.lng, e.lngLat.lat],
+        map: [lng, lat],
       };
       setLinkedPoints((prev) => [...prev, newLink]);
       setClickedImageCoords(null);
@@ -150,18 +159,6 @@ export default function ImageMapLinker() {
             ))}
           </div>
         )}
-      </div>
-
-      <div className="absolute bottom-4 right-4 z-20">
-        <button
-          onClick={() => geolocateControlRef.current?.trigger()}
-          className={cn(
-            buttonVariants({ variant: 'default' }),
-            'bg-white text-black hover:bg-gray-100 border border-gray-300'
-          )}
-        >
-          Go to My Location
-        </button>
       </div>
 
 

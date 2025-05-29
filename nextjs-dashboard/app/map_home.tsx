@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import mapboxgl, { GeolocateControl } from 'mapbox-gl';
+import mapboxgl, { GeolocateControl, Marker } from 'mapbox-gl';
 import { cn } from '@/lib/utils'; // combines class names
-// import 'mapbox-gl/dist/mapbox-gl.css';
+//import 'mapbox-gl/dist/mapbox-gl.css';
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -15,6 +15,7 @@ import {
 import TypingHero from './Typing';
 import { buttonVariants } from '@/components/ui/button';
 import Link from 'next/link';
+import "mapbox-gl/dist/mapbox-gl.css";
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXJ1bG1rMTciLCJhIjoiY2x5eWphY2VsMmEwejJqcHlyMTBpNTA5YSJ9.awhbH-MC409jQiIcp9K1Ig';
 
@@ -163,7 +164,11 @@ export default function Map() {
   return (
     <div className="relative w-screen h-screen">
       {/* Map container */}
-      <div ref={mapContainerRef} className="absolute inset-0 z-0" />
+      <div ref={mapContainerRef} className="absolute inset-0 z-0" style={{
+            width: "100%",
+            height: "100%",
+            border: "1px solid black",
+            }} />
 
       {/* Buttons on map (top-right corner) */}
       <div className="absolute top-4 right-20 z-20 space-y-2 w-64">
@@ -183,7 +188,7 @@ export default function Map() {
           </button>
         </form>
       </div>
-      <div className="absolute bottom-4 left-56 z-20">
+      <div className="absolute top-[72px] right-10 z-20">
         <button
         onClick={toggleMapStyle}
         className={buttonVariants({ variant: 'outline' })}
@@ -211,18 +216,6 @@ export default function Map() {
         </NavigationMenu>
       </div>
 
-      {/* Current Location Button */}
-      <div className="absolute bottom-4 left-4 z-20">
-        <button
-          onClick={() => geolocateControlRef.current?.trigger()}
-          className={cn(
-            buttonVariants({ variant: 'default' }),
-            'bg-white text-black hover:bg-gray-100 border border-gray-300'
-          )}
-        >
-          Go to My Location
-        </button>
-      </div>
 
       {/* Map Overlay Text (centered at top) */}
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
