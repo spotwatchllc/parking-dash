@@ -2,12 +2,6 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, install pnpm:
-
-```bash
-npm install -g pnpm
-```
-
 To run the development server:
 
 ```bash
