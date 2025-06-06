@@ -203,12 +203,24 @@ export default function Map() {
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuTrigger>Menu</NavigationMenuTrigger>
-              <NavigationMenuContent className="p-4 bg-white rounded shadow max-h-[400px] overflow-y-auto">
+              <NavigationMenuContent className="p-4 bg-white rounded shadow max-h-[400px] overflow-y-auto flex flex-col gap-2">
+                <Link
+                  href="/dashboard"
+                  className={buttonVariants({ variant: 'outline' })}
+                >
+                  Dashboard
+                </Link>
                 <Link
                   href="/configuration"
                   className={buttonVariants({ variant: 'outline' })}
                 >
                   Configuration
+                </Link>
+                <Link
+                  href="/about"
+                  className={buttonVariants({ variant: 'outline' })}
+                >
+                  About Us
                 </Link>
               </NavigationMenuContent>
             </NavigationMenuItem>
