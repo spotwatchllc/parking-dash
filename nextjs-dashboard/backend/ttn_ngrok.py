@@ -46,13 +46,13 @@ for wh in resp.json().get("webhooks", []):
 
 # update webhook's base url
 update_url = f"{BASE}/{WEBHOOK_ID}"
-params = {"field_mask": "base_url"}
 body = {
     "webhook": {
         "base_url": public_url
     },
     "field_mask": "base_url",
     "enable": True,
+    "paused": False,
 }
 print(f"Updating webhook '{WEBHOOK_ID}' → {public_url}")
 put_r = requests.put(update_url, json=body, headers=HEADERS)
