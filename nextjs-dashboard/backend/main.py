@@ -15,6 +15,9 @@ async def receive_ttn_uplink(request: Request):
     up = body.get("uplink_message", {})
     raw = up.get("frm_payload", "")
     boxes = parse_bboxes(raw)
+
+    # testing
+    print(up)
    
     print("TTN Webhook received:")
     if up:
