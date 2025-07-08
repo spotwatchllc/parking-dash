@@ -21,7 +21,10 @@ This will guide you through setting up a static ngrok URL for The Things Network
 
 ---
 
-## 2. Run Your Local Python Webhook Server
+## 2. Setup the environment variables
+1. Setup the environment variables according to the ones in .env.example 
+
+## 3. Run Your Local Python Webhook Server
 
 Ensure your webhook service is running locally on port `8000` (or your chosen port). For example:
 
@@ -33,7 +36,7 @@ python webhook_server.py
 
 ---
 
-## 3. Start Ngrok with Your Static Domain
+## 4. Start Ngrok with Your Static Domain
 
 In a new terminal, run:
 
@@ -48,7 +51,7 @@ Once started, ngrok will display a status indicating the tunnel is live and forw
 
 ---
 
-## 4. Update TTN Console
+## 5. Update TTN Console
 
 1. Log in to your TTN Console and navigate to your application:
    - **Integrations → HTTP Webhooks**
@@ -57,7 +60,7 @@ Once started, ngrok will display a status indicating the tunnel is live and forw
    - **Configuration**: Enable uplink message with the "/ttn-webhook" folder
 3. Save the integration.
 
-> **Note:** Every collaborator must repeat steps 2-3 using *their* own reserved static ngrok subdomain, with *their* new TTN webhook endpoint in TTN console accordingly.
+> **Note:** Every collaborator must repeat steps 3-4 using *their* own reserved static ngrok subdomain, with *their* new TTN webhook endpoint in TTN console accordingly.
 
 ---
 
