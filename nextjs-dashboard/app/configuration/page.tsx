@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import mapboxgl from 'mapbox-gl';
 import { Button } from '@/components/ui/button';
 import mapboxgl, { GeolocateControl, Marker } from 'mapbox-gl';
 import { cn } from '@/lib/utils'; // combines class names
