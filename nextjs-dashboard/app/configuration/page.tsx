@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import mapboxgl from 'mapbox-gl';
 import { Button } from '@/components/ui/button';
 import mapboxgl, { GeolocateControl, Marker } from 'mapbox-gl';
 import { cn } from '@/lib/utils'; // combines class names
@@ -97,7 +96,7 @@ export default function ImageMapLinker() {
     setClickedImageCoords({ x, y });
   };
 
-  const handleMapClick = (e: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
+  const handleMapClick = (e: mapboxgl.MapMouseEvent) => {
     const { lng, lat } = e.lngLat;
 
     // Always add a marker, regardless of image click
@@ -110,7 +109,7 @@ export default function ImageMapLinker() {
     if (clickedImageCoords) {
       const newLink = {
         image: clickedImageCoords,
-        map: [lng, lat],
+        map: [lng, lat] as [number, number],
       };
       setLinkedPoints((prev) => [...prev, newLink]);
       setClickedImageCoords(null);
