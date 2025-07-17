@@ -1,21 +1,24 @@
 // app/api/ttn-webhook/route.ts
 import { NextRequest, NextResponse } from "next/server";
 
+// Handle POST requests sent to the TTN webhook
 export async function POST(request: NextRequest) {
     let body: any;
+
+    // Parse the incoming request as json
     try {
         body = await request.json();
     } catch {
         return NextResponse.json({error: "Invalid JSON"}, {status: 400});
     }
 
+    // Extract the message and decode
     const up = body.uplink_message || {};
     const raw = up.frm_payload || '';
     const boxes = parseBboxes(raw);
 
-    // Test
+    // Debugging logs
     console.log(up);
-
     console.log("TTN Webhook received:")
     if (up) {
         console.log("Decoded coords: ", boxes)
@@ -24,6 +27,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({"success": true, "coords": boxes});
 }
 
+// Define the bounding box
 type Box = {
     "box_id": number,
     "x1": number,
@@ -32,11 +36,13 @@ type Box = {
     "y2": number,
 }
 
+// Function to parse base64-encoded data from the payload
 function parseBboxes(rawB64: string) {
     if (!rawB64) return [];
 
     let data: string;
     try {
+        // Decode base64 string to a UTF-8 string
         data = Buffer.from(rawB64, 'base64').toString('utf-8');
     } catch {
         return [];
@@ -46,6 +52,7 @@ function parseBboxes(rawB64: string) {
         data = data.slice(5);
     }
 
+    // Parse and return an array of valid bounding box objects
     const boxes: Box[] = data
         .split(';')
         .filter(Boolean)
