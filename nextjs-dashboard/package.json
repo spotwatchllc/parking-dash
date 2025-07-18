@@ -1,7 +1,6 @@
 {
   "private": true,
   "scripts": {
-    "postinstall": "pnpm rebuild bcrypt --update-binary",
     "build": "next build",
     "dev": "next dev --turbopack",
     "start": "next start"
