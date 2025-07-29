@@ -1,5 +1,6 @@
 // app/api/ttn-webhook/route.ts
 import { NextRequest, NextResponse } from "next/server";
+import { setBoxes } from "@/lib/boxStore";
 
 // Handle POST requests sent to the TTN webhook
 export async function POST(request: NextRequest) {
@@ -23,6 +24,8 @@ export async function POST(request: NextRequest) {
     if (up) {
         console.log("Decoded coords: ", boxes)
     }
+
+    setBoxes(boxes);
 
     return NextResponse.json({"success": true, "coords": boxes});
 }
