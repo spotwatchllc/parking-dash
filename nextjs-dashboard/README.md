@@ -1,46 +1,120 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Live URL
+
+[https://spotwatchllc.vercel.app/](https://spotwatchllc.vercel.app/)
+
+> You can view incoming TTN webhook requests and decoded coordinates in Vercel Function logs under **Functions → Production Logs**.
+
+---
 
 ## Getting Started
 
-First, install pnpm:
+### Prerequisites
+
+* Node.js v18+
+* pnpm (or npm/yarn)
+* A TTN application with HTTP Webhook integration
+
+### Install & Run Locally
 
 ```bash
-npm install -g pnpm
-# or install with corepack
-npm install --global corepack@latest
-corepack enable pnpm
-```
+# Clone the repo
+git clone https://github.com/spotwatchllc/parking-dash.git
+cd parking-dash/nextjs-dashboard
 
-Then run the development server:
+# Install dependencies
+pnpm install
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
+# Start dev server
 pnpm dev
-# or
-bun dev
 ```
 
+Your app will be available at [http://localhost:3000](http://localhost:3000).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Expose Locally for TTN
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# (Optional) Reserve a static ngrok subdomain first:
+ngrok http 3000 --domain=<your-name>.ngrok-free.app
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Then point the parking-app/parking-e5-device TTN webhook to:
 
-## Learn More
+```
+https://<your-name>.ngrok-free.app/api/ttn-webhook
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Local Development (Developer Instructions)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Start the dev server**
 
-## Deploy on Vercel
+   ```bash
+   pnpm dev
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. **Receive TTN payloads locally**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   * In your TTN Console, configure the HTTP Webhook endpoint to (Note: must expose the URL):
+
+     ```
+     http://localhost:3000/api/ttn-webhook
+     ```
+
+3. **View incoming messages**
+
+   * Monitor your terminal where `pnpm dev` is running, you’ll see decoded coordinates printed for each POST.
+
+4. **Test with curl**
+   Simulate an uplink to verify parsing:
+
+   ```bash
+   curl -X POST http://localhost:3000/api/ttn-webhook \
+     -H "Content-Type: application/json" \
+     -d '{
+       "uplink_message": {
+         "frm_payload": "<your-base64-payload>"
+       }
+     }'
+   ```
+
+5. **Build & preview production**
+
+   ```bash
+   pnpm build
+   pnpm start
+   ```
+
+---
+
+## API Endpoints
+
+### `POST /api/ttn-webhook`
+
+Receives TTN uplinks:
+
+* **Request Body** (JSON):
+
+  ```json
+  {
+    "uplink_message": {
+      "frm_payload": "<base64‑encoded bbox data>"
+    }
+  }
+  ```
+* **Response**:
+
+  ```json
+  { "success": true, "coords": [ { "box_id":1, "x1":..., ... }, … ] }
+  ```
+
+---
+
+## Deploying to Vercel
+
+1. Push to GitHub under the `main` branch.
+2. Make sure you're the authorized user who made the commit.
+3. Vercel will auto‑build the production URLs:
+
+   * Webhook: `https://spotwatchllc.vercel.app/api/ttn-webhook`
+
