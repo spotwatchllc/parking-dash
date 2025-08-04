@@ -1,6 +1,16 @@
 import { NextResponse } from "next/server";
-import { getBoxes } from "@/lib/boxStore";
+import { BoxDatabase, ensureInitialized } from "@/lib/database";
 
 export async function GET() {
-    return NextResponse.json(getBoxes());
+    try {
+        await ensureInitialized();
+        const boxes = await BoxDatabase.getBoxes();
+        return NextResponse.json(boxes);
+    } catch (error) {
+        console.error('Error fetching boxes: ', error);
+        return NextResponse.json(
+            { error: 'Failed to fetch boxes' },
+            { status: 500 }
+        );
+    }
 }

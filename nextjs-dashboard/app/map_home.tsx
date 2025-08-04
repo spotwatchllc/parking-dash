@@ -222,13 +222,6 @@ export default function Map() {
                 >
                   About Us
                 </Link>
-
-                <Link
-                  href="/boxes"
-                  className={buttonVariants({ variant: 'outline' })}
-                >
-                  Show Boxes
-                </Link>
               </NavigationMenuContent>
             </NavigationMenuItem>
           </NavigationMenuList>
