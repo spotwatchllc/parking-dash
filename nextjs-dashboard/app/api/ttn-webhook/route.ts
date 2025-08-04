@@ -1,6 +1,6 @@
 // app/api/ttn-webhook/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { setBoxes } from "@/lib/boxStore";
+import { BoxDatabase, ensureInitialized, Box } from "@/lib/database";
 
 // Handle POST requests sent to the TTN webhook
 export async function POST(request: NextRequest) {
@@ -25,18 +25,17 @@ export async function POST(request: NextRequest) {
         console.log("Decoded coords: ", boxes)
     }
 
-    setBoxes(boxes);
-
-    return NextResponse.json({"success": true, "coords": boxes});
-}
-
-// Define the bounding box
-type Box = {
-    "box_id": number,
-    "x1": number,
-    "y1": number,
-    "x2": number,
-    "y2": number,
+    try {
+        await ensureInitialized();
+        await BoxDatabase.setBoxes(boxes);
+        return NextResponse.json({"success": true, "coords": boxes});
+    } catch(error) {
+        console.error('Error storing boxes: ', error);
+        return NextResponse.json(
+            { error: "Failed to store boxes" },
+            { status: 500 },
+        )
+    }
 }
 
 // Function to parse base64-encoded data from the payload

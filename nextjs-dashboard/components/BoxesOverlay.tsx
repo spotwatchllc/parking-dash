@@ -1,11 +1,11 @@
 'use client';
 import useSwr from 'swr';
-import { Box } from '@/lib/boxStore';
+import { Box } from '@/lib/database';
 
 const fetcher = ( url: string ) => fetch(url).then(r => r.json());
 
 export function BoxesOverlay() {
-    const { data: boxes, error } = useSwr<Box[]>('/api/boxes', fetcher, { refreshInterval: 1000, });
+    const { data: boxes, error } = useSwr<Box[]>('/api/boxes', fetcher, { refreshInterval: 5000, });
 
     if (error) return <p style={{color: 'red'}}>Failed to load boxes.</p>
     if (!boxes) return <p>Loading bounding boxes...</p>
