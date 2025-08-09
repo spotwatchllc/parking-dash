@@ -23,6 +23,10 @@ pnpm install
 
 # Start the dev server
 pnpm dev
+
+# When done and cleanup (before pushing to github)
+rm -rf .next node_modules
+pnpm store prune
 ```
 
 Your app will be available at:
@@ -35,7 +39,7 @@ http://localhost:3000
 pnpm dev
 ```
 
-Direct Local Testing 
+2. Direct Local Testing 
 In the TTN Console, you can temporarily set the webhook to:
 ```bash
 http://localhost:3000/api/ttn-webhook
@@ -68,7 +72,7 @@ Response
 ```
 --- 
 ### 🚀 Deploying to Vercel
-0. Clean up process of the build and
+0. Clean up process of the build mentioned above
 1. Have someone review your pull request
 2. Ensure you have approval from Faizan
 3. Commit and push to the main branch on GitHub.
