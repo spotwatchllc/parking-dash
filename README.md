@@ -46,7 +46,36 @@ http://localhost:3000/api/ttn-webhook
 ```
 * This should work, update: took out the ngrok info since we are using a live website hosted with vercel
 
+---
 
+This project uses **SQLite** as the local development database, managed with [Prisma ORM](https://www.prisma.io/).
+
+### Setup with Database
+
+1. Install dependencies:
+
+```bash
+pnpm install
+```
+2. Create the database and run migrations:
+```bash
+npx prisma migrate dev --name init
+``` 
+ This command will: Create the SQLite database file (dev.db) locally.Apply the necessary schema migrations.
+
+3. Generate Prisma Client
+```bash
+npx prisma generate
+```
+4. Run the development server:
+```bash 
+pnpm dev
+```
+5. When all else fails run this command
+```bash 
+npx prisma migrate reset
+```
+---
 ### View Incoming LORA Messages with TTN 
 API Reference
 POST `/api/ttn-webhook`
