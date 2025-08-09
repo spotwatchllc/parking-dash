@@ -38,21 +38,18 @@ export class BoxDatabase {
                     x2 NUMERIC NOT NULL,
                     y2 NUMERIC NOT NULL,
                     is_calibration BOOLEAN DEFAULT true,
-                    is_locked BOOOLEAN DEFAULT false,
+                    is_locked BOOLEAN DEFAULT false,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
             `;
 
-            // Create index for faster lookups
-            await sql`
-                CREATE INDEX IF NOT EXISTS idx_boxes_box_id ON boxes(box_id)
-            `
+            await sql`ALTER TABLE boxes ADD COLUMN IF NOT EXISTS is_calibration BOOLEAN DEFAULT true`;
+            await sql`ALTER TABLE boxes ADD COLUMN IF NOT EXISTS is_locked BOOLEAN DEFAULT false`;
 
-            // Add index for calibration queries
-            await sql`
-                CREATE INDEX IF NOT EXISTS idx_boxes_calibration ON boxes(is_calibration, is_locked)
-            ` 
+            await sql`CREATE INDEX IF NOT EXISTS idx_boxes_box_id ON boxes(box_id)`;
+            await sql`CREATE INDEX IF NOT EXISTS idx_boxes_calibration ON boxes(is_calibration, is_locked)`;
+
             console.log('Boxes table initialized successfully.');
         } catch(error) {
             console.error('Error initializing boxes table: ', error);
