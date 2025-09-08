@@ -1,6 +1,8 @@
 // app/api/ttn-webhook/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { BoxDatabase, ensureInitialized, Box } from "@/lib/database";
+import { prisma } from '@/lib/prisma';
+
+type ParsedBox = { box_id: number; x1: number; y1: number; x2: number; y2: number };
 
 // Handle POST requests sent to the TTN webhook
 export async function POST(request: NextRequest) {
@@ -26,9 +28,44 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-        await ensureInitialized();
-        await BoxDatabase.setBoxes(boxes);
-        return NextResponse.json({"success": true, "coords": boxes});
+        await prisma.$transaction(async (tx) => {
+            // Upsert current state per boxId (preserves existing data, updates coordinates)
+            for (const b of boxes) {
+                await tx.box.upsert({
+                    where: { boxId: b.box_id },
+                    create: {
+                        boxId: b.box_id,
+                        x1: b.x1, 
+                        y1: b.y1, 
+                        x2: b.x2, 
+                        y2: b.y2,
+                        // isCalibration and isLocked use schema defaults
+                    },
+                    update: {
+                        x1: b.x1, 
+                        y1: b.y1, 
+                        x2: b.x2, 
+                        y2: b.y2,
+                        lastSeenAt: new Date(),
+                        updatedAt: new Date(),
+                    },
+                });
+            }
+
+            // Append immutable history snapshot
+            if (boxes.length > 0) {
+                await tx.boxSnapshot.createMany({
+                    data: boxes.map(b => ({
+                        boxId: b.box_id, 
+                        x1: b.x1, 
+                        y1: b.y1, 
+                        x2: b.x2, 
+                        y2: b.y2,
+                    })),
+                });
+            }
+        });
+        return NextResponse.json({ success: true, coords: boxes});
     } catch(error) {
         console.error('Error storing boxes: ', error);
         return NextResponse.json(
@@ -55,7 +92,7 @@ function parseBboxes(rawB64: string) {
     }
 
     // Parse and return an array of valid bounding box objects
-    const boxes: Box[] = data
+    return data
         .split(';')
         .filter(Boolean)
         .map(seg => seg.split(',').map(Number))
@@ -69,6 +106,4 @@ function parseBboxes(rawB64: string) {
             x2,
             y2
         }));
-    
-    return boxes;
 }

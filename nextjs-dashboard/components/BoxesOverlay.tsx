@@ -1,6 +1,7 @@
 'use client';
 import useSwr from 'swr';
-import { Box } from '@/lib/database';
+
+type Box = { box_id: number; x1: number; y1: number; x2: number; y2: number };
 
 const fetcher = ( url: string ) => fetch(url).then(r => r.json());
 
