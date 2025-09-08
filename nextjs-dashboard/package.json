@@ -8,6 +8,7 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@mapbox/mapbox-gl-geocoder": "^5.0.3",
+    "@prisma/client": "^6.15.0",
     "@radix-ui/react-navigation-menu": "^1.2.13",
     "@radix-ui/react-slot": "^1.2.3",
     "@tailwindcss/forms": "^0.5.10",
@@ -21,7 +22,6 @@
     "next": "latest",
     "next-auth": "5.0.0-beta.25",
     "postcss": "8.5.1",
-    "postgres": "^3.4.7",
     "react": "latest",
     "react-dom": "latest",
     "react-simple-typewriter": "^5.0.1",
@@ -37,7 +37,8 @@
     "@types/bcrypt": "^5.0.2",
     "@types/node": "22.10.7",
     "@types/react": "19.0.7",
-    "@types/react-dom": "19.0.3"
+    "@types/react-dom": "19.0.3",
+    "prisma": "^6.15.0"
   },
   "packageManager": "pnpm@10.11.0+sha512.6540583f41cc5f628eb3d9773ecee802f4f9ef9923cc45b69890fb47991d4b092964694ec3a4f738a420c918a333062c8b925d312f42e4f0c263eb603551f977"
 }
