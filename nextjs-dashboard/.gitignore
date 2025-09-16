@@ -37,3 +37,14 @@ next-env.d.ts
 
 # python
 __pycache__/
+
+# prisma
+/generated/prisma
+
+# IDE and editor files
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
