@@ -1,3 +1,7 @@
+## Features
+- TTN parking box ingestion + overlay visualization  
+  See: docs/ttn-boxes-pipeline.md
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
