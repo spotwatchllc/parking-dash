@@ -1,120 +1,153 @@
-## Live URL
 
-[https://spotwatchllc.vercel.app/](https://spotwatchllc.vercel.app/)
+---
+# 🅿️ SpotWatch Dashboard
 
-> You can view incoming TTN webhook requests and decoded coordinates in Vercel Function logs under **Functions → Production Logs**.
+A **Next.js dashboard** for monitoring **real-time parking availability** via **TTN (The Things Network)** IoT sensors.
 
 ---
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 
-* Node.js v18+
-* pnpm (or npm/yarn)
-* A TTN application with HTTP Webhook integration
+Make sure you have the following installed:
 
-### Install & Run Locally
+- **Docker & Docker Compose**  
+  _(Required for the local PostgreSQL database)_
+- **Node.js v18+**
+- **pnpm** _(preferred package manager)_
+
+---
+
+## 📦 Setup
+
+### 1️⃣ Clone & Configure Environment
+
+Clone the repository and prepare your local environment variables:
 
 ```bash
-# Clone the repo
 git clone https://github.com/spotwatchllc/parking-dash.git
 cd parking-dash/nextjs-dashboard
+cp .env.example .env.local
+````
 
-# Install dependencies
-pnpm install
+Ensure `.env.local` contains the correct **`DATABASE_URL`** pointing to your Docker PostgreSQL container (see `.env.example`).
 
-# Start dev server
+---
+
+### 2️⃣ Launch Infrastructure & Sync Database
+
+This command:
+
+* Spins up the PostgreSQL container
+* Applies all Prisma migrations
+* Ensures your local schema is fully up to date
+
+```bash
+pnpm run db:sync
+```
+
+---
+
+### 3️⃣ Run the Development Server
+
+```bash
 pnpm dev
 ```
 
-Your app will be available at [http://localhost:3000](http://localhost:3000).
+The dashboard will be available at:
 
-### Expose Locally for TTN
+👉 **[http://localhost:3000](http://localhost:3000)**
+
+---
+
+## 🛠 Developer Workflow
+
+### 🗄 Managing the Database
+
+**Sync Schema**
+Run after pulling new code or updating Prisma models:
 
 ```bash
-# (Optional) Reserve a static ngrok subdomain first:
-ngrok http 3000 --domain=<your-name>.ngrok-free.app
+pnpm run db:sync
 ```
 
-Then point the parking-app/parking-e5-device TTN webhook to:
+**Visual Inspector (Prisma Studio)**
+Open a GUI to view and edit local database records:
 
+```bash
+npx prisma studio
 ```
-https://<your-name>.ngrok-free.app/api/ttn-webhook
+
+**Infrastructure Control**
+
+```bash
+pnpm run infra:up    # Start PostgreSQL container
+docker compose down  # Stop PostgreSQL container
 ```
 
 ---
 
-## Local Development (Developer Instructions)
+## 📡 Testing TTN Webhooks Locally
 
-1. **Start the dev server**
+To receive **live TTN uplinks** on your local machine, use **ngrok**:
 
-   ```bash
-   pnpm dev
-   ```
+```bash
+ngrok http 3000
+```
 
-2. **Receive TTN payloads locally**
+Update your **TTN Console → HTTP Webhook endpoint** to:
 
-   * In your TTN Console, configure the HTTP Webhook endpoint to (Note: must expose the URL):
-
-     ```
-     http://localhost:3000/api/ttn-webhook
-     ```
-
-3. **View incoming messages**
-
-   * Monitor your terminal where `pnpm dev` is running, you’ll see decoded coordinates printed for each POST.
-
-4. **Test with curl**
-   Simulate an uplink to verify parsing:
-
-   ```bash
-   curl -X POST http://localhost:3000/api/ttn-webhook \
-     -H "Content-Type: application/json" \
-     -d '{
-       "uplink_message": {
-         "frm_payload": "<your-base64-payload>"
-       }
-     }'
-   ```
-
-5. **Build & preview production**
-
-   ```bash
-   pnpm build
-   pnpm start
-   ```
+```
+https://<your-ngrok-id>.ngrok-free.app/api/ttn-webhook
+```
 
 ---
 
-## API Endpoints
+### 🔬 Manual Test (Mock Uplink)
 
-### `POST /api/ttn-webhook`
+You can manually test the webhook endpoint using `curl`:
 
-Receives TTN uplinks:
-
-* **Request Body** (JSON):
-
-  ```json
-  {
+```bash
+curl -X POST http://localhost:3000/api/ttn-webhook \
+  -H "Content-Type: application/json" \
+  -d '{
     "uplink_message": {
-      "frm_payload": "<base64‑encoded bbox data>"
+      "frm_payload": "AQIDBA==" 
     }
-  }
-  ```
-* **Response**:
-
-  ```json
-  { "success": true, "coords": [ { "box_id":1, "x1":..., ... }, … ] }
-  ```
+  }'
+```
 
 ---
 
-## Deploying to Vercel
+## 🏗 Deployment
 
-1. Push to GitHub under the `main` branch.
-2. Make sure you're the authorized user who made the commit.
-3. Vercel will auto‑build the production URLs:
+This project is configured for **independent hosting** using a **standalone Next.js output**.
 
-   * Webhook: `https://spotwatchllc.vercel.app/api/ttn-webhook`
+### Build Standalone
 
+Generates a minimal production bundle:
+
+```bash
+pnpm build
+```
+
+Output is generated in:
+
+```
+.next/standalone
+```
+
+---
+
+### 🐳 Docker Production
+
+Use the provided production `Dockerfile` to deploy to any VPS:
+(not implemented yet)
+* DigitalOcean
+* AWS
+* Fly.io
+* Hetzner
+* etc.
+
+---
