@@ -4,7 +4,9 @@
     "build": "prisma db push && next build",
     "dev": "next dev --turbopack",
     "start": "next start",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "infra:up": "docker compose up -d",
+    "db:sync": "pnpm run infra:up && npx prisma migrate dev"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
