@@ -1,0 +1,3 @@
+{
+  "/api/ttn-webhook/route": "app/api/ttn-webhook/route.js"
+}
