@@ -2,7 +2,7 @@ package main
 
 import (
     "context"
-    pb "github.com/spotwatch/protos/parking"
+    pb "github.com/spotwatchllc/parking-dash/protos/parking"
 )
 
 type server struct {

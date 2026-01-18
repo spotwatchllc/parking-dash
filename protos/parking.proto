@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package parking;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/spotwatchllc/parking-dash/protos/parking";
+
+// The core data structure representing a parking spot
+message Box {
+  int32 id = 1;
+  int32 box_id = 2; 
+
+  // Coordinates
+  int32 x1 = 3;
+  int32 y1 = 4;
+  int32 x2 = 5;
+  int32 y2 = 6;
+  int32 x3 = 7;
+  int32 y3 = 8;
+  int32 x4 = 9;
+  int32 y4 = 10;
+
+  int32 availability = 11; // 0 = available, 1 = occupied
+  google.protobuf.Timestamp updated_at = 12;
+}
+
+// Request/Response messages for gRPC methods
+message GetBoxRequest {
+  int32 box_id = 1;
+}
+
+message UpdateBoxRequest {
+  int32 box_id = 1;
+  int32 availability = 2;
+}
+
+message ListBoxesResponse {
+  repeated Box boxes = 1;
+}
+
+// The service definition for the gRPC server and client
+service ParkingService {
+  // Returns a specific box by its ID
+  rpc GetBox(GetBoxRequest) returns (Box);
+
+  // Returns all boxes (useful for initial dashboard load)
+  rpc ListBoxes(google.protobuf.Empty) returns (ListBoxesResponse);
+
+  // Updates a box's status and returns the updated state
+  rpc UpdateBoxAvailability(UpdateBoxRequest) returns (Box);
+
+  // Server-side stream to push updates to the dashboard in real-time
+  rpc StreamBoxUpdates(google.protobuf.Empty) returns (stream Box);
+}
