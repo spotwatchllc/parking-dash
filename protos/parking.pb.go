@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v3.12.4
-// source: protos/parking.proto
+// source: parking.proto
 
-package parking
+package protos
 
 import (
 	empty "github.com/golang/protobuf/ptypes/empty"
@@ -45,7 +45,7 @@ type Box struct {
 
 func (x *Box) Reset() {
 	*x = Box{}
-	mi := &file_protos_parking_proto_msgTypes[0]
+	mi := &file_parking_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -57,7 +57,7 @@ func (x *Box) String() string {
 func (*Box) ProtoMessage() {}
 
 func (x *Box) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_parking_proto_msgTypes[0]
+	mi := &file_parking_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -70,7 +70,7 @@ func (x *Box) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Box.ProtoReflect.Descriptor instead.
 func (*Box) Descriptor() ([]byte, []int) {
-	return file_protos_parking_proto_rawDescGZIP(), []int{0}
+	return file_parking_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Box) GetId() int32 {
@@ -167,7 +167,7 @@ type GetBoxRequest struct {
 
 func (x *GetBoxRequest) Reset() {
 	*x = GetBoxRequest{}
-	mi := &file_protos_parking_proto_msgTypes[1]
+	mi := &file_parking_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -179,7 +179,7 @@ func (x *GetBoxRequest) String() string {
 func (*GetBoxRequest) ProtoMessage() {}
 
 func (x *GetBoxRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_parking_proto_msgTypes[1]
+	mi := &file_parking_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -192,7 +192,7 @@ func (x *GetBoxRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetBoxRequest.ProtoReflect.Descriptor instead.
 func (*GetBoxRequest) Descriptor() ([]byte, []int) {
-	return file_protos_parking_proto_rawDescGZIP(), []int{1}
+	return file_parking_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *GetBoxRequest) GetBoxId() int32 {
@@ -212,7 +212,7 @@ type UpdateBoxRequest struct {
 
 func (x *UpdateBoxRequest) Reset() {
 	*x = UpdateBoxRequest{}
-	mi := &file_protos_parking_proto_msgTypes[2]
+	mi := &file_parking_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -224,7 +224,7 @@ func (x *UpdateBoxRequest) String() string {
 func (*UpdateBoxRequest) ProtoMessage() {}
 
 func (x *UpdateBoxRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_parking_proto_msgTypes[2]
+	mi := &file_parking_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -237,7 +237,7 @@ func (x *UpdateBoxRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateBoxRequest.ProtoReflect.Descriptor instead.
 func (*UpdateBoxRequest) Descriptor() ([]byte, []int) {
-	return file_protos_parking_proto_rawDescGZIP(), []int{2}
+	return file_parking_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *UpdateBoxRequest) GetBoxId() int32 {
@@ -263,7 +263,7 @@ type ListBoxesResponse struct {
 
 func (x *ListBoxesResponse) Reset() {
 	*x = ListBoxesResponse{}
-	mi := &file_protos_parking_proto_msgTypes[3]
+	mi := &file_parking_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -275,7 +275,7 @@ func (x *ListBoxesResponse) String() string {
 func (*ListBoxesResponse) ProtoMessage() {}
 
 func (x *ListBoxesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_parking_proto_msgTypes[3]
+	mi := &file_parking_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -288,7 +288,7 @@ func (x *ListBoxesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListBoxesResponse.ProtoReflect.Descriptor instead.
 func (*ListBoxesResponse) Descriptor() ([]byte, []int) {
-	return file_protos_parking_proto_rawDescGZIP(), []int{3}
+	return file_parking_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ListBoxesResponse) GetBoxes() []*Box {
@@ -298,11 +298,11 @@ func (x *ListBoxesResponse) GetBoxes() []*Box {
 	return nil
 }
 
-var File_protos_parking_proto protoreflect.FileDescriptor
+var File_parking_proto protoreflect.FileDescriptor
 
-const file_protos_parking_proto_rawDesc = "" +
+const file_parking_proto_rawDesc = "" +
 	"\n" +
-	"\x14protos/parking.proto\x12\aparking\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bgoogle/protobuf/empty.proto\"\x8b\x02\n" +
+	"\rparking.proto\x12\aparking\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bgoogle/protobuf/empty.proto\"\x8b\x02\n" +
 	"\x03Box\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x15\n" +
 	"\x06box_id\x18\x02 \x01(\x05R\x05boxId\x12\x0e\n" +
@@ -329,22 +329,22 @@ const file_protos_parking_proto_rawDesc = "" +
 	"\x06GetBox\x12\x16.parking.GetBoxRequest\x1a\f.parking.Box\x12?\n" +
 	"\tListBoxes\x12\x16.google.protobuf.Empty\x1a\x1a.parking.ListBoxesResponse\x12@\n" +
 	"\x15UpdateBoxAvailability\x12\x19.parking.UpdateBoxRequest\x1a\f.parking.Box\x12:\n" +
-	"\x10StreamBoxUpdates\x12\x16.google.protobuf.Empty\x1a\f.parking.Box0\x01B5Z3github.com/spotwatchllc/parking-dash/protos/parkingb\x06proto3"
+	"\x10StreamBoxUpdates\x12\x16.google.protobuf.Empty\x1a\f.parking.Box0\x01B-Z+github.com/spotwatchllc/parking-dash/protosb\x06proto3"
 
 var (
-	file_protos_parking_proto_rawDescOnce sync.Once
-	file_protos_parking_proto_rawDescData []byte
+	file_parking_proto_rawDescOnce sync.Once
+	file_parking_proto_rawDescData []byte
 )
 
-func file_protos_parking_proto_rawDescGZIP() []byte {
-	file_protos_parking_proto_rawDescOnce.Do(func() {
-		file_protos_parking_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_protos_parking_proto_rawDesc), len(file_protos_parking_proto_rawDesc)))
+func file_parking_proto_rawDescGZIP() []byte {
+	file_parking_proto_rawDescOnce.Do(func() {
+		file_parking_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_parking_proto_rawDesc), len(file_parking_proto_rawDesc)))
 	})
-	return file_protos_parking_proto_rawDescData
+	return file_parking_proto_rawDescData
 }
 
-var file_protos_parking_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
-var file_protos_parking_proto_goTypes = []any{
+var file_parking_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_parking_proto_goTypes = []any{
 	(*Box)(nil),                 // 0: parking.Box
 	(*GetBoxRequest)(nil),       // 1: parking.GetBoxRequest
 	(*UpdateBoxRequest)(nil),    // 2: parking.UpdateBoxRequest
@@ -352,7 +352,7 @@ var file_protos_parking_proto_goTypes = []any{
 	(*timestamp.Timestamp)(nil), // 4: google.protobuf.Timestamp
 	(*empty.Empty)(nil),         // 5: google.protobuf.Empty
 }
-var file_protos_parking_proto_depIdxs = []int32{
+var file_parking_proto_depIdxs = []int32{
 	4, // 0: parking.Box.updated_at:type_name -> google.protobuf.Timestamp
 	0, // 1: parking.ListBoxesResponse.boxes:type_name -> parking.Box
 	1, // 2: parking.ParkingService.GetBox:input_type -> parking.GetBoxRequest
@@ -370,26 +370,26 @@ var file_protos_parking_proto_depIdxs = []int32{
 	0, // [0:2] is the sub-list for field type_name
 }
 
-func init() { file_protos_parking_proto_init() }
-func file_protos_parking_proto_init() {
-	if File_protos_parking_proto != nil {
+func init() { file_parking_proto_init() }
+func file_parking_proto_init() {
+	if File_parking_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_protos_parking_proto_rawDesc), len(file_protos_parking_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_parking_proto_rawDesc), len(file_parking_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_protos_parking_proto_goTypes,
-		DependencyIndexes: file_protos_parking_proto_depIdxs,
-		MessageInfos:      file_protos_parking_proto_msgTypes,
+		GoTypes:           file_parking_proto_goTypes,
+		DependencyIndexes: file_parking_proto_depIdxs,
+		MessageInfos:      file_parking_proto_msgTypes,
 	}.Build()
-	File_protos_parking_proto = out.File
-	file_protos_parking_proto_goTypes = nil
-	file_protos_parking_proto_depIdxs = nil
+	File_parking_proto = out.File
+	file_parking_proto_goTypes = nil
+	file_parking_proto_depIdxs = nil
 }

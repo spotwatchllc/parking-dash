@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.0
 // - protoc             v3.12.4
-// source: protos/parking.proto
+// source: parking.proto
 
-package parking
+package protos
 
 import (
 	context "context"
@@ -248,5 +248,5 @@ var ParkingService_ServiceDesc = grpc.ServiceDesc{
 			ServerStreams: true,
 		},
 	},
-	Metadata: "protos/parking.proto",
+	Metadata: "parking.proto",
 }

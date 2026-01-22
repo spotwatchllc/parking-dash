@@ -5,7 +5,7 @@ package parking;
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 
-option go_package = "github.com/spotwatchllc/parking-dash/protos/parking";
+option go_package = "github.com/spotwatchllc/parking-dash/protos";
 
 // The core data structure representing a parking spot
 message Box {
