@@ -17,7 +17,7 @@ Ensure you have the following installed:
 * **Go** (v1.24+ recommended)
 * **Node.js** (v18+) & **pnpm**
 * **Protocol Buffer Compiler (`protoc`)**
-* **Go Plugins** for protoc: `protoc-gen-go` and `protoc-gen-go-grpc`
+* **Go Plugins** for protoc: `protoc-gen-go v1.6.0` and `protoc-gen-go-grpc v3.12.4`
 * **Docker & Docker Compose**
 
 ## 🚀 Getting Started
