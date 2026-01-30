@@ -32,8 +32,9 @@ message GetBoxRequest {
 }
 
 message UpdateBoxRequest {
-  int32 box_id = 1;
-  int32 availability = 2;
+  int32 image_id = 1;
+  int32 box_id = 2;
+  int32 availability = 3;
 }
 
 message ListBoxesResponse {

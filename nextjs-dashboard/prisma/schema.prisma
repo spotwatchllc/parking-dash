@@ -12,7 +12,9 @@ datasource db {
 // Format: {id, coordinates: [[x1,y1], [x2,y2], [x3,y3], [x4,y4]], availability: 0/1}
 model Box {
   id           Int      @id @default(autoincrement())
-  boxId        Int      @unique @map("box_id")  // External box ID from TTN
+
+  imageId      Int      @map("image_id")     // which camera/image template this belongs to
+  boxId        Int      @map("box_id")       // box index within that image
   
   // Four corner coordinates (preserved from first detection)
   x1           Int
@@ -28,5 +30,7 @@ model Box {
   updatedAt    DateTime @updatedAt @map("updated_at")
 
   @@map("boxes")
-  @@index([boxId])
+  // Composite unique key: boxId is unique *within* an imageId
+  @@unique([imageId, boxId])
+  @@index([imageId])
 }
