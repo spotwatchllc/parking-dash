@@ -20,6 +20,7 @@ Ensure you have the following installed:
 * **Protocol Buffer Compiler (`protoc`)**
 * **Go Plugins** for protoc: `protoc-gen-go` and `protoc-gen-go-grpc v1.6.0`
 * **Docker & Docker Compose**
+* **PostGres Sql Client** 
 
 ## 🚀 Getting Started
 
@@ -31,12 +32,24 @@ From repo root:
 docker compose up -d
 ```
 
+### .5 Start Prisma
+Local Database up to sync
+```bash
+cd nextjs-dashboard
+npx prisma migrate dev
+```
+
 ### 1. Seed the Database (Boxes)
 This seeds `(image_id, box_id)` rows into `boxes` for local testing:
 
 ```bash
-chmod +x scripts/seed_boxes.sh
+chmod +x nextjs-dashboard/scripts/seed_boxes.sh
 ./scripts/seed_boxes.sh
+```
+
+To see the database visually in Prisma GUI, use the below command:
+```bash
+npx prisma studio
 ```
 
 ### 2. Protocol Buffers (Common Logic)
@@ -59,12 +72,12 @@ The dashboard service uses a local `replace` directive in `go.mod` to reference 
 ```bash
 cd services/dashboard
 go mod tidy
-go run main.go
+go run .
 ```
 
 #### Ingest (HTTP webhook, port 8081)
-
-```bash
+Open another terminal to run the ingest service...
+```bash 
 cd services/ingest
 go mod tidy
 go run .
@@ -97,7 +110,7 @@ There are two ways to use **ngrok**:
 Start ngrok:
 
 ```bash
-ngrok http 3000
+ngrok http 8081
 ```
 
 This generates a new URL each time you start ngrok, so you must update the TTN webhook endpoint on every run to:
@@ -130,7 +143,7 @@ Using an ngrok dev domain (static domain) allows you to configure the TTN webhoo
 3. **Set the TTN webhook endpoint ONCE** in TTN Console → HTTP Webhook endpoint to:
    
    ```
-   https://<your-ngrok-dev-domain>.ngrok-free.app/api/ttn-webhook
+   https://<your-ngrok-dev-domain>.ngrok-free.app/ttn/uplink
    ```
 
 ### Each time you want to test locally
@@ -144,7 +157,7 @@ Using an ngrok dev domain (static domain) allows you to configure the TTN webhoo
 2. **Start ngrok using the dev domain:**
    
    ```bash
-   ngrok http --domain=<your-ngrok-dev-domain>.ngrok-free.app 3000
+   ngrok http --domain=<your-ngrok-dev-domain>.ngrok-free.app 8081
    ```
 
 As long as you use the same dev domain, you don't need to update the TTN webhook endpoint again.

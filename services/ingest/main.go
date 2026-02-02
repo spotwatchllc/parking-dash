@@ -21,21 +21,23 @@ type job struct {
 // Ingest listens for TTN webhooks (HTTP/JSON), converts payloads into protobuf,
 // then calls the dashboard service (gRPC) to persist/broadcast updates.
 func main() {
+	// Get the HTTP address for ingest, and dashboard
 	httpAddr := getenv("INGEST_HTTP_ADDR", ":8081")
 	dashboardAddr := getenv("DASHBOARD_GRPC_ADDR", "localhost:50051")
 
+	// Connection to TTN and processing POST request
 	workers := getenvInt("INGEST_WORKERS", 20)
 	queueSize := getenvInt("INGEST_QUEUE_SIZE", 1000)
 
 	// connect to dashboard gRPC
-	dialCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	dialContext, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	conn, err := grpc.DialContext(
-		dialCtx,
+		dialContext, // timeout
 		dashboardAddr,
-		grpc.WithTransportCredentials(insecure.NewCredentials()),
-		grpc.WithBlock(),
+		grpc.WithTransportCredentials(insecure.NewCredentials()), // local dev, without TLS
+		grpc.WithBlock(), // fast failure on startup if dashboard isn't available
 	)
 	if err != nil {
 		log.Fatalf("dial dashboard gRPC: %v", err)
@@ -43,13 +45,13 @@ func main() {
 	defer conn.Close()
 	client := pb.NewParkingServiceClient(conn)
 
-	// Bounded queue for backpressure
-	jobs := make(chan job, queueSize)
+	// Bounded queue for backpressure - job channels
+	jobs := make(chan job, queueSize) 
 
 	// Worker pool: parsing -> protobuf conv -> gRPC
 	for i := 0; i < workers; i++ {
 		go func(workerID int) {
-			for j := range jobs {
+			for j := range jobs { // consume job channel
 				processUplink(client, j.uplink)
 			}
 		}(i)
