@@ -204,8 +204,9 @@ func (x *GetBoxRequest) GetBoxId() int32 {
 
 type UpdateBoxRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	BoxId         int32                  `protobuf:"varint,1,opt,name=box_id,json=boxId,proto3" json:"box_id,omitempty"`
-	Availability  int32                  `protobuf:"varint,2,opt,name=availability,proto3" json:"availability,omitempty"`
+	ImageId       int32                  `protobuf:"varint,1,opt,name=image_id,json=imageId,proto3" json:"image_id,omitempty"`
+	BoxId         int32                  `protobuf:"varint,2,opt,name=box_id,json=boxId,proto3" json:"box_id,omitempty"`
+	Availability  int32                  `protobuf:"varint,3,opt,name=availability,proto3" json:"availability,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -238,6 +239,13 @@ func (x *UpdateBoxRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateBoxRequest.ProtoReflect.Descriptor instead.
 func (*UpdateBoxRequest) Descriptor() ([]byte, []int) {
 	return file_parking_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *UpdateBoxRequest) GetImageId() int32 {
+	if x != nil {
+		return x.ImageId
+	}
+	return 0
 }
 
 func (x *UpdateBoxRequest) GetBoxId() int32 {
@@ -319,10 +327,11 @@ const file_parking_proto_rawDesc = "" +
 	"\n" +
 	"updated_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"&\n" +
 	"\rGetBoxRequest\x12\x15\n" +
-	"\x06box_id\x18\x01 \x01(\x05R\x05boxId\"M\n" +
-	"\x10UpdateBoxRequest\x12\x15\n" +
-	"\x06box_id\x18\x01 \x01(\x05R\x05boxId\x12\"\n" +
-	"\favailability\x18\x02 \x01(\x05R\favailability\"7\n" +
+	"\x06box_id\x18\x01 \x01(\x05R\x05boxId\"h\n" +
+	"\x10UpdateBoxRequest\x12\x19\n" +
+	"\bimage_id\x18\x01 \x01(\x05R\aimageId\x12\x15\n" +
+	"\x06box_id\x18\x02 \x01(\x05R\x05boxId\x12\"\n" +
+	"\favailability\x18\x03 \x01(\x05R\favailability\"7\n" +
 	"\x11ListBoxesResponse\x12\"\n" +
 	"\x05boxes\x18\x01 \x03(\v2\f.parking.BoxR\x05boxes2\xff\x01\n" +
 	"\x0eParkingService\x12.\n" +
