@@ -9,18 +9,20 @@ export async function GET() {
     try {
         const boxes = await prisma.box.findMany({
             select: {
-                boxId: true, 
+                imageId: true,
+                boxId: true,
                 x1: true, y1: true,
                 x2: true, y2: true,
                 x3: true, y3: true,
                 x4: true, y4: true,
                 availability: true
             },
-            orderBy: { boxId: 'asc' },
+            orderBy: [{ imageId: 'asc' }, { boxId: 'asc' }],
         });
 
         return NextResponse.json(
-            boxes.map(b => ({ 
+            boxes.map(b => ({
+                imageId: b.imageId,
                 id: b.boxId,
                 coordinates: [
                     [b.x1, b.y1],

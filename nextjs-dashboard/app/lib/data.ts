@@ -9,7 +9,9 @@ import {
 } from './definitions';
 import { formatCurrency } from './utils';
 
-const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
+const url = process.env.POSTGRES_URL!;
+const useSsl = process.env.NODE_ENV === 'production' && !url.includes('localhost');
+const sql = postgres(url, { ssl: useSsl ? 'require' : false });
 
 export async function fetchRevenue() {
   try {

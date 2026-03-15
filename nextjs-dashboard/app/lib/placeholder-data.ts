@@ -1,11 +1,21 @@
 // This file contains placeholder data that you'll be replacing with real data in the Data Fetching chapter:
 // https://nextjs.org/learn/dashboard-app/fetching-data
+export type UserRole = 'user' | 'manager';
+
 const users = [
   {
     id: '410544b2-4001-4271-9855-fec4b6a6442a',
     name: 'User',
     email: 'user@nextmail.com',
     password: '123456',
+    role: 'user' as UserRole,
+  },
+  {
+    id: '410544b2-4001-4271-9855-fec4b6a6442b',
+    name: 'Parking Manager',
+    email: 'manager@nextmail.com',
+    password: '123456',
+    role: 'manager' as UserRole,
   },
 ];
 
