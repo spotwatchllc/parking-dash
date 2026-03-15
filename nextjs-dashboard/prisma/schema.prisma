@@ -8,6 +8,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id       String  @id @default(cuid())
+  name     String?
+  email    String  @unique
+  password String
+  role     String  @default("user") // "manager" or "user"
+
+  @@map("users") // This ensures the table name is lowercase "users"
+}
+
 // Parking spot bounding box with availability status
 // Format: {id, coordinates: [[x1,y1], [x2,y2], [x3,y3], [x4,y4]], availability: 0/1}
 model Box {
