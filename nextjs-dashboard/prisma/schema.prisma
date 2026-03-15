@@ -34,3 +34,17 @@ model Box {
   @@unique([imageId, boxId])
   @@index([imageId])
 }
+
+// User-saved parking spots (user_id from external users table, not Prisma)
+model SavedSpot {
+  id        Int    @id @default(autoincrement())
+  userId    String @map("user_id")   // UUID from users table
+  imageId   Int    @map("image_id")
+  boxId     Int    @map("box_id")
+  name      String?                  // optional label e.g. "Work spot"
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@unique([userId, imageId, boxId])
+  @@index([userId])
+  @@map("saved_spots")
+}

@@ -64,11 +64,15 @@ export async function POST(request: NextRequest) {
          * This ensures parking spot locations remain consistent while
          * availability updates in real-time from IoT sensors
          */
+        // Single image/camera source for TTN webhook; use 1 if payload has no imageId
+        const imageId = 1;
         for (const b of boxes) {
             await prisma.box.upsert({
-                where: { boxId: b.box_id },
+                where: {
+                    imageId_boxId: { imageId, boxId: b.box_id },
+                },
                 create: {
-                    // If it's the first time seeing this box, store coordinates and availability
+                    imageId,
                     boxId: b.box_id,
                     x1: b.x1, y1: b.y1,
                     x2: b.x2, y2: b.y2,
@@ -77,9 +81,7 @@ export async function POST(request: NextRequest) {
                     availability: b.availability,
                 },
                 update: {
-                    // If the box exists only update availability, keep original coordinates
                     availability: b.availability,
-                    updatedAt: new Date(),
                 },
             });
         }

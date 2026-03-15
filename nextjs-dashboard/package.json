@@ -6,7 +6,8 @@
     "start": "next start",
     "postinstall": "prisma generate",
     "infra:up": "docker compose up -d",
-    "db:sync": "pnpm run infra:up && npx prisma migrate dev"
+    "db:sync": "pnpm run infra:up && prisma migrate dev",
+    "db:migrate": "prisma migrate dev"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
